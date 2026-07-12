@@ -111,9 +111,8 @@ _AddPartyMon::
 	jr nz, .copyEnemyMonData
 
 ; Not wild.
-	call Random ; generate random IVs
+	ld a, $ff ; max DVs (15/15/15/15) for gift and traded mons (was random)
 	ld b, a
-	call Random
 
 .next4
 	push bc
@@ -144,9 +143,8 @@ _AddPartyMon::
 .copyEnemyMonData
 	ld bc, MON_DVS
 	add hl, bc
-	ld a, [wEnemyMonDVs] ; copy IVs from cur enemy mon
+	ld a, $ff ; max DVs (15/15/15/15) for caught wild mons (was copied from wEnemyMonDVs)
 	ld [hli], a
-	ld a, [wEnemyMonDVs + 1]
 	ld [hl], a
 	ld a, [wEnemyMonHP]    ; copy HP from cur enemy mon
 	ld [de], a

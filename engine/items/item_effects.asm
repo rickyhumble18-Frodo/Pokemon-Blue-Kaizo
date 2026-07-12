@@ -2811,11 +2811,9 @@ SendNewMonToBox:
 	dec b
 	jr nz, .statLoop
 
-	ld hl, wEnemyMonDVs
-	ld a, [hli]
+	ld a, $ff ; max DVs (15/15/15/15) for mons caught to the box (was copied from wEnemyMonDVs)
 	ld [de], a
 	inc de
-	ld a, [hli]
 	ld [de], a
 	ld hl, wEnemyMonPP
 	ld b, NUM_MOVES
