@@ -13,17 +13,9 @@ Mansion3CheckReplaceSwitchDoorBlocks:
 	bit BIT_CUR_MAP_LOADED_1, [hl]
 	res BIT_CUR_MAP_LOADED_1, [hl]
 	ret z
-	CheckEvent EVENT_MANSION_SWITCH_ON
-	jr nz, .switchTurnedOn
+	; switch puzzle removed: every gate is always open floor,
+	; regardless of EVENT_MANSION_SWITCH_ON
 	ld a, $e
-	lb bc, 2, 7
-	call Mansion2ReplaceBlock
-	ld a, $5f
-	lb bc, 5, 7
-	call Mansion2ReplaceBlock
-	ret
-.switchTurnedOn
-	ld a, $5f
 	lb bc, 2, 7
 	call Mansion2ReplaceBlock
 	ld a, $e
