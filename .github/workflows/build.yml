@@ -1,0 +1,43 @@
+name: Build ROM
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install RGBDS 1.0.0
+        run: |
+          set -e
+          # Prefer the prebuilt release; fall back to building from source.
+          if curl -fsSL -o rgbds.tar.xz \
+              https://github.com/gbdev/rgbds/releases/download/v1.0.0/rgbds-1.0.0-linux-x86_64.tar.xz; then
+            mkdir rgbds-bin
+            tar -xf rgbds.tar.xz -C rgbds-bin
+            cd rgbds-bin
+            sudo ./install.sh || sudo install -m 755 rgbasm rgblink rgbfix rgbgfx /usr/local/bin/
+          else
+            sudo apt-get update
+            sudo apt-get install -y bison libpng-dev pkg-config
+            curl -fsSL -o rgbds-src.tar.gz \
+              https://github.com/gbdev/rgbds/archive/refs/tags/v1.0.0.tar.gz
+            tar -xzf rgbds-src.tar.gz
+            make -C rgbds-1.0.0 -j"$(nproc)"
+            sudo make -C rgbds-1.0.0 install
+          fi
+          rgbasm --version
+
+      - name: Build Blue Kaizo
+        run: make blue -j"$(nproc)"
+
+      - name: Upload ROM artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pokeblue-kaizo
+          path: pokeblue.gbc
