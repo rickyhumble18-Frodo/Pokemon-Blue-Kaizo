@@ -13,30 +13,16 @@ Mansion1CheckReplaceSwitchDoorBlocks:
 	bit BIT_CUR_MAP_LOADED_1, [hl]
 	res BIT_CUR_MAP_LOADED_1, [hl]
 	ret z
-	CheckEvent EVENT_MANSION_SWITCH_ON
-	jr nz, .switchTurnedOn
+	; switch puzzle removed: every gate is always open floor,
+	; regardless of EVENT_MANSION_SWITCH_ON
 	lb bc, 6, 12
 	call Mansion1LoadEmptyFloorTileBlock
-	lb bc, 3, 8
-	call Mansion1LoadHorizontalGateBlock
-	lb bc, 8, 10
-	call Mansion1LoadHorizontalGateBlock
-	lb bc, 13, 13
-	jp Mansion1LoadHorizontalGateBlock
-.switchTurnedOn
-	lb bc, 6, 12
-	call Mansion1LoadHorizontalGateBlock
 	lb bc, 3, 8
 	call Mansion1LoadEmptyFloorTileBlock
 	lb bc, 8, 10
 	call Mansion1LoadEmptyFloorTileBlock
 	lb bc, 13, 13
 	jp Mansion1LoadEmptyFloorTileBlock
-
-Mansion1LoadHorizontalGateBlock:
-	ld a, $2d
-	ld [wNewTileBlockID], a
-	jr Mansion1ReplaceBlock
 
 Mansion1LoadEmptyFloorTileBlock:
 	ld a, $e
