@@ -494,12 +494,8 @@ WarpFound2::
 	ld [wUnusedLastMapWidth], a
 	ldh a, [hWarpDestinationMap]
 	ld [wCurMap], a
-	cp ROCK_TUNNEL_1F
-	jr nz, .notRockTunnel
-	ld a, $06
-	ld [wMapPalOffset], a
-	call GBFadeOutToBlack
-.notRockTunnel
+	; Rock Tunnel darkness disabled: no longer sets wMapPalOffset,
+	; so the tunnel is fully lit and Flash is never needed
 	call PlayMapChangeSound
 	jr .done
 
