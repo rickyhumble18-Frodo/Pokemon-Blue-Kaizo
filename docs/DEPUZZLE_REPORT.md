@@ -152,3 +152,40 @@ teleporter pads sharing the same VRAM slots, not spinners.)
 | SilphCo11F | 1.2% |
 | SilphCo9F | 0.9% |
 | CeladonCity | 0.4% |
+
+---
+
+# Phase 2/3 — Implemented changes
+
+All changes below keep battle data byte-identical: no trainer parties,
+movesets, DVs, wild encounter tables, or item contents were modified, and
+every trainer, item ball, hidden item and warp remains reachable (verified
+by BFS over the collision data of each edited map).
+
+## Engine / script changes
+
+| Change | Files |
+|---|---|
+| Rock Tunnel darkness removed (no Flash needed) | `home/overworld.asm` |
+| All spinner squares removed (tables emptied; Kaizo had invisible spin traps) | `scripts/RocketHideoutB2F.asm`, `scripts/RocketHideoutB3F.asm`, `scripts/ViridianGym.asm` |
+| Seafoam strong currents disabled (boulder-drop no longer gates Articuno) | `data/maps/force_bike_surf.asm` |
+| Pokemon Mansion switch-gates always open (switches now inert) | `scripts/PokemonMansion{1F,2F,3F,B1F}.asm` |
+| Max DVs ($FF $FF) for player-obtained mons: gifts/trades, wild catches, box catches | `engine/pokemon/add_mon.asm`, `engine/items/item_effects.asm` |
+
+## Map layout changes (one commit per map)
+
+- **Rock Tunnel 1F/B1F, Mt Moon 1F/B1F/B2F, Rocket Hideout B1F–B4F,
+  Viridian Gym, Victory Road 1F–3F, Seafoam 1F–B4F** — rebuilt as single
+  gauntlet corridors: entrance → every trainer/item → exit. Boulders are
+  entombed in walls (switch/hole events can never fire); the Victory Road
+  switch-gated blocks and Rocket Hideout B4F remain script-compatible
+  (the two-guard door before Giovanni still works).
+- **Silph Co 1F–8F, 11F** — layouts kept; minimal wall blocks opened so the
+  already-direct 1F→11F stair climb also reaches every trainer/item/teleport
+  pad on foot (Blue Kaizo had already removed the Card Key doors; teleport
+  pads remain as shortcuts). 9F/10F needed no changes.
+- **Pokemon Mansion 1F–B1F** — layouts kept; gates baked open, plus one wall
+  opened on 2F and 3F for full on-foot reachability.
+
+Known quirk kept from stock Blue Kaizo: the Silph Co 7F elevator door is
+blocked by a Rocket standing on its only approach square (pre-existing).
