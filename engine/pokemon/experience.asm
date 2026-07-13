@@ -23,7 +23,13 @@ CalcLevelFromExperience::
 	ld a, [hl]
 	sbc c
 	pop hl
-	jr nc, .loop ; if exp needed for level d is not greater than exp, try the next level
+	jr c, .foundLimit ; the exp needed for level d exceeds the current exp
+	ld a, d
+	cp MAX_LEVEL
+	jr c, .loop ; keep searching below the cap
+	ret ; d = MAX_LEVEL and its exp requirement is met; stop here (an 8-bit
+	    ; d would wrap past 255 and loop forever without this check)
+.foundLimit
 	dec d ; since the exp was too high on the last loop iteration, go back to the previous value and return
 	ret
 
@@ -50,6 +56,10 @@ CalcExperience::
 	ldh [hDivisor], a
 	ld b, $4
 	call Divide
+	ldh a, [hQuotient]
+	and a
+	jp nz, .saturate ; the cubed term exceeds 3 bytes (slow growth rates at
+	                 ; very high levels); saturate instead of wrapping
 	ldh a, [hQuotient + 1]
 	push af
 	ldh a, [hQuotient + 2]
@@ -134,6 +144,13 @@ CalcExperience::
 	ldh a, [hExperience]
 	adc b
 	ldh [hExperience], a
+	ret nc
+	; the sum carried out of 3 bytes; saturate instead of wrapping
+.saturate
+	ld a, $ff
+	ldh [hExperience], a
+	ldh [hExperience + 1], a
+	ldh [hExperience + 2], a
 	ret
 
 ; calculates d*d

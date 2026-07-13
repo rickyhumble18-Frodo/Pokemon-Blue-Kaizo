@@ -1,4 +1,4 @@
-DEF MAX_LEVEL EQU 100
+DEF MAX_LEVEL EQU 255 ; level cap raised from 100 (stats still clamp at MAX_STAT_VALUE)
 
 ; maximum moves known per mon
 DEF NUM_MOVES EQU 4
