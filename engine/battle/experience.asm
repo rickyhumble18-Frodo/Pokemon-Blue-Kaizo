@@ -104,6 +104,16 @@ GainExperience:
 	dec hl
 	inc [hl]
 	inc hl
+	jr nz, .noCarry
+	; the exp total wrapped past $FFFFFF (possible now that slow growth
+	; groups saturate at max exp); pin it at $FFFFFF instead of wrapping,
+	; which would otherwise level the mon back down
+	dec hl ; back to the exp MSB
+	ld a, $ff
+	ld [hli], a
+	ld [hli], a
+	ld [hl], a
+	dec hl ; leave hl where .noCarry expects it (exp middle byte)
 .noCarry
 ; calculate exp for the mon at max level, and cap the exp at that value
 	inc hl
