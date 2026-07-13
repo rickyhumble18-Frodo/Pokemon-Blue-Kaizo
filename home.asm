@@ -9,6 +9,9 @@ SECTION "High Home", ROM0
 INCLUDE "home/lcd.asm"
 INCLUDE "home/clear_sprites.asm"
 INCLUDE "home/copy.asm"
+; Relocated into the pre-header gap of ROM0 so the main Home section has room
+; for the _DEBUG build's extra hooks. Same bank, so callers are unaffected.
+INCLUDE "home/math.asm"
 
 
 SECTION "Home", ROM0
@@ -66,7 +69,6 @@ INCLUDE "home/names2.asm"
 INCLUDE "home/item_price.asm"
 INCLUDE "home/copy_string.asm"
 INCLUDE "home/joypad2.asm"
-INCLUDE "home/math.asm"
 INCLUDE "home/print_text.asm"
 INCLUDE "home/move_mon.asm"
 INCLUDE "home/array.asm"

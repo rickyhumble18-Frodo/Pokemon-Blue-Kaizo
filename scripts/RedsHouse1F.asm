@@ -4,6 +4,13 @@ RedsHouse1F_Script:
 RedsHouse1F_TextPointers:
 	def_text_pointers
 	dw_const RedsHouse1FMomText, TEXT_REDSHOUSE1F_MOM
+	; object-event texts must all precede bg-event texts (TV), so the
+	; debug NPCs go here, before the TV sign
+IF DEF(_DEBUG)
+	dw_const RedsHouse1FItemGodText,    TEXT_REDSHOUSE1F_ITEM_GOD
+	dw_const RedsHouse1FPokemonGodText, TEXT_REDSHOUSE1F_POKEMON_GOD
+	dw_const RedsHouse1FFlagGodText,    TEXT_REDSHOUSE1F_FLAG_GOD
+ENDC
 	dw_const RedsHouse1FTVText,  TEXT_REDSHOUSE1F_TV
 
 RedsHouse1FMomText:
@@ -68,3 +75,22 @@ RedsHouse1FTVText:
 .WrongSideText:
 	text_far _RedsHouse1FTVWrongSideText
 	text_end
+
+IF DEF(_DEBUG)
+RedsHouse1FItemGodText:
+	text_asm
+	call DebugItemGodScript
+	jp TextScriptEnd
+
+RedsHouse1FPokemonGodText:
+	text_asm
+	call DebugPokemonGodScript
+	jp TextScriptEnd
+
+RedsHouse1FFlagGodText:
+	text_asm
+	call DebugFlagGodScript
+	jp TextScriptEnd
+
+INCLUDE "scripts/RedsHouse1FDebug.asm"
+ENDC

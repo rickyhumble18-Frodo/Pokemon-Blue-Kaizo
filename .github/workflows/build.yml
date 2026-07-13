@@ -33,11 +33,33 @@ jobs:
           fi
           rgbasm --version
 
-      - name: Build Blue Kaizo
+      - name: Build clean Blue Kaizo
         run: make blue -j"$(nproc)"
 
-      - name: Upload ROM artifact
+      - name: Build debug Blue Kaizo
+        run: make blue_debug -j"$(nproc)"
+
+      - name: Stage artifacts
+        run: |
+          cp pokeblue.gbc kaizo-clean.gb
+          cp pokeblue_debug.gbc kaizo-debug.gb
+
+      - name: Verify clean ROM has no debug objects
+        run: |
+          # The debug NPC scripts must never appear in the clean build.
+          if grep -qi "DebugItemGodScript\|DebugPokemonGodScript\|DebugFlagGodScript" pokeblue.sym; then
+            echo "ERROR: debug symbols leaked into the clean ROM"; exit 1
+          fi
+          echo "clean ROM verified free of debug objects"
+
+      - name: Upload clean ROM
         uses: actions/upload-artifact@v4
         with:
-          name: pokeblue-kaizo
-          path: pokeblue.gbc
+          name: kaizo-clean
+          path: kaizo-clean.gb
+
+      - name: Upload debug ROM
+        uses: actions/upload-artifact@v4
+        with:
+          name: kaizo-debug
+          path: kaizo-debug.gb
