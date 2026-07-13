@@ -66,7 +66,14 @@ ViridianMart_TextPointers:
 	dw ViridianMartClerkSayHiToOakText
 	dw ViridianMartYoungsterText
 	dw ViridianMartCooltrainerMText
-	const_def 4
+	; super-mart clerks sell even before Oak's parcel is delivered
+	dw ViridianMartClerk2Text
+	dw ViridianMartClerk3Text
+	dw ViridianMartClerk4Text
+	dw ViridianMartClerk5Text
+	dw ViridianMartClerk6Text
+	dw ViridianMartClerk7Text
+	const_def 10
 	dw_const ViridianMartClerkYouCameFromPalletTownText, TEXT_VIRIDIANMART_CLERK_YOU_CAME_FROM_PALLET_TOWN
 	dw_const ViridianMartClerkParcelQuestText,           TEXT_VIRIDIANMART_CLERK_PARCEL_QUEST
 
@@ -76,6 +83,12 @@ ViridianMart_TextPointers2:
 	dw_const ViridianMartClerkText,        TEXT_VIRIDIANMART_CLERK
 	dw_const ViridianMartYoungsterText,    TEXT_VIRIDIANMART_YOUNGSTER
 	dw_const ViridianMartCooltrainerMText, TEXT_VIRIDIANMART_COOLTRAINER_M
+	dw_const ViridianMartClerk2Text,       TEXT_VIRIDIANMART_CLERK2
+	dw_const ViridianMartClerk3Text,       TEXT_VIRIDIANMART_CLERK3
+	dw_const ViridianMartClerk4Text,       TEXT_VIRIDIANMART_CLERK4
+	dw_const ViridianMartClerk5Text,       TEXT_VIRIDIANMART_CLERK5
+	dw_const ViridianMartClerk6Text,       TEXT_VIRIDIANMART_CLERK6
+	dw_const ViridianMartClerk7Text,       TEXT_VIRIDIANMART_CLERK7
 
 ViridianMartClerkSayHiToOakText:
 	text_far _ViridianMartClerkSayHiToOakText

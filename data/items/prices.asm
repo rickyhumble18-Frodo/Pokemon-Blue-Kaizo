@@ -78,11 +78,11 @@ ItemPrices::
 	bcd3 0     ; OLD_ROD
 	bcd3 0     ; GOOD_ROD
 	bcd3 0     ; SUPER_ROD
-	bcd3 0000  ; PP_UP
+	bcd3 9800  ; PP_UP
 	bcd3 1000  ; ETHER
-	bcd3 0000  ; MAX_ETHER
-	bcd3 0000  ; ELIXER
-	bcd3 0000  ; MAX_ELIXER
+	bcd3 2000  ; MAX_ETHER
+	bcd3 3000  ; ELIXER
+	bcd3 4500  ; MAX_ELIXER
 	assert_table_length NUM_ITEMS
 	bcd3 0     ; FLOOR_B2F
 	bcd3 0     ; FLOOR_B1F
