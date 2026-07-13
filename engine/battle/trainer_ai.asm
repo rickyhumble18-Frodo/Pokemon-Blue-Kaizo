@@ -283,6 +283,8 @@ INCLUDE "engine/battle/misc.asm"
 
 INCLUDE "engine/battle/read_trainer_party.asm"
 
+INCLUDE "engine/battle/rematch.asm"
+
 INCLUDE "data/trainers/special_moves.asm"
 
 INCLUDE "data/trainers/parties.asm"

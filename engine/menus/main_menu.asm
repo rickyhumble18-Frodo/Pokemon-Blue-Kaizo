@@ -317,6 +317,8 @@ StartNewGame:
 	; Debug mode persists in saved games for both debug and non-debug builds, and is
 	; only reset here by the main menu.
 	res BIT_DEBUG_MODE, [hl]
+	; A fresh playthrough must not inherit the previous run's rematch scaling.
+	farcall ResetRematchData
 	; fallthrough
 StartNewGameDebug:
 	call OakSpeech

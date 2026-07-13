@@ -96,6 +96,9 @@ ChampionsRoomRivalDefeatedScript:
 	jp z, ResetRivalScript
 	call UpdateSprites
 	SetEvent EVENT_BEAT_CHAMPION_RIVAL
+	; a full Elite Four clear: raise the E4/Champion rematch scaling.
+	; Only counted here, so wiping mid-run never increases the scaling.
+	farcall IncrementE4Clears
 	ld a, PAD_CTRL_PAD
 	ld [wJoyIgnore], a
 	ld a, TEXT_CHAMPIONSROOM_RIVAL

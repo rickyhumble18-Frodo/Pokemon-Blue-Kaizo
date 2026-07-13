@@ -102,7 +102,10 @@ TalkToTrainer::
 	jr z, .trainerNotYetFought     ; test trainer's flag
 	ld a, $6
 	call ReadTrainerHeaderInfo     ; print after battle text
-	jp PrintText
+	call PrintText
+	farcall AskRematch             ; carry set if the player wants a rematch
+	ret nc
+	jr .trainerNotYetFought        ; re-run the normal engagement flow
 .trainerNotYetFought
 	ld a, $4
 	call ReadTrainerHeaderInfo     ; print before battle text
@@ -199,6 +202,7 @@ EndTrainerBattle::
 	ld c, a
 	ld b, FLAG_SET
 	call TrainerFlagAction   ; flag trainer as fought
+	farcall RecordTrainerWin ; count the win for rematch level scaling
 	ld a, [wEnemyMonOrTrainerClass]
 	cp OPP_ID_OFFSET
 	jr nc, .skipRemoveSprite ; test if trainer was fought (in that case skip removing the corresponding sprite)

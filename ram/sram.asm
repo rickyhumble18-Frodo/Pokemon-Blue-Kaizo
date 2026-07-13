@@ -11,7 +11,14 @@ sHallOfFame:: ds HOF_TEAM * HOF_TEAM_CAPACITY
 
 SECTION "Save Data", SRAM
 
-	ds $598
+; Rematch data lives in the previously unused padding before sGameData, so
+; existing save files stay compatible. It sits outside the checksummed
+; sGameData block, so counters can be updated at any time without touching
+; the save checksum. sRematchMagic guards against uninitialized SRAM.
+sRematchWins:: ds NUM_TRAINER_PARTIES ; one win counter per trainer party
+sEliteFourClears:: db
+sRematchMagic:: db
+	ds $598 - NUM_TRAINER_PARTIES - 2
 
 sGameData::
 sPlayerName::  ds NAME_LENGTH

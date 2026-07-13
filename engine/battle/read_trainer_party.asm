@@ -49,6 +49,7 @@ ReadTrainer:
 	ld a, [hli]
 	cp $FF ; is the trainer special?
 	jr z, .SpecialTrainer ; if so, check for special moves
+	call ScaleTrainerLevel ; rematch scaling (adds 0 on a first battle)
 	ld [wCurEnemyLevel], a
 .LoopTrainerData
 	ld a, [hli]
@@ -69,6 +70,7 @@ ReadTrainer:
 	ld a, [hli]
 	and a ; have we reached the end of the trainer data?
 	jr z, .AddLoneMove
+	call ScaleTrainerLevel ; rematch scaling (adds 0 on a first battle)
 	ld [wCurEnemyLevel], a
 	ld a, [hli]
 	ld [wCurPartySpecies], a

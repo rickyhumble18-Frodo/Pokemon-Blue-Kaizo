@@ -63,3 +63,7 @@ ENDM
 	trainer_const AGATHA         ; $2E
 	trainer_const LANCE          ; $2F
 DEF NUM_TRAINERS EQU const_value - 1
+
+; Total trainer parties in data/trainers/parties.asm; sized for the
+; sRematchWins SRAM table. Checked by data/trainers/rematch_bases.asm.
+DEF NUM_TRAINER_PARTIES EQU 388
