@@ -51,11 +51,11 @@ ItemUsePtrTable:
 	dw ItemUseEvoStone   ; FIRE_STONE
 	dw ItemUseEvoStone   ; THUNDER_STONE
 	dw ItemUseEvoStone   ; WATER_STONE
-	dw UnusableItem      ; HP_UP
-	dw UnusableItem      ; PROTEIN
-	dw UnusableItem      ; IRON
-	dw UnusableItem      ; CARBOS
-	dw UnusableItem      ; CALCIUM
+	dw ItemUseVitamin    ; HP_UP
+	dw ItemUseVitamin    ; PROTEIN
+	dw ItemUseVitamin    ; IRON
+	dw ItemUseVitamin    ; CARBOS
+	dw ItemUseVitamin    ; CALCIUM
 	dw ItemUseVitamin    ; RARE_CANDY
 	dw UnusableItem      ; DOME_FOSSIL
 	dw UnusableItem      ; HELIX_FOSSIL
@@ -1283,11 +1283,11 @@ ItemUseMedicine:
 	ld a, 10
 	ld b, a
 	ld a, [hl] ; a = MSB of stat experience of the appropriate stat
-	cp 100 ; is there already at least 25600 (256 * 100) stat experience?
+	cp 255 ; already at the 65535 stat experience ceiling? (25600 vanilla cap removed)
 	jr nc, .vitaminNoEffect ; if so, vitamins can't add any more
 	add b ; add 2560 (256 * 10) stat experience
-	jr nc, .noCarry3 ; a carry should be impossible here, so this will always jump
-	ld a, 255
+	jr nc, .noCarry3
+	ld a, 255 ; saturate at the top instead of overflowing
 .noCarry3
 	ld [hl], a
 	pop hl
