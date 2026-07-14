@@ -67,7 +67,12 @@ OakSpeech:
 	call BoyGirlChoice ; added routine at the end of this file
 	ld a, [wCurrentMenuItem]
 	ld [wPlayerGender], a ; store player's gender. 00 for boy, 01 for girl
-	call ClearScreen ; clear the screen before resuming normal intro	
+	call ClearScreen ; clear the screen before resuming normal intro
+; Ric's version splash: OakSpeech only runs when a New Game is confirmed
+; (Continue enters the map directly), so this never shows on Continue.
+	ld hl, RicSplashText
+	call PrintText
+	call ClearScreen
 	ld a, [wStatusFlags6]
 	bit BIT_DEBUG_MODE, a
 	jp nz, .skipSpeech
@@ -190,6 +195,10 @@ OakSpeech:
 	call DelayFrames
 	call GBFadeOutToWhite
 	jp ClearScreen
+
+RicSplashText:
+	text_far _RicSplashText
+	text_end
 
 OakSpeechText1:
 	text_far _OakSpeechText1
