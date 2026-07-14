@@ -855,7 +855,15 @@ FaintEnemyPokemon:
 	jr nz, .gainExpFlagsLoop
 	ld a, b
 	ld [wPartyGainExpFlags], a
+	; announce the EXP.ALL share once; the per-mon messages for this pass
+	; are suppressed in GainExperience
+	ld hl, TeamGainedExpText
+	call PrintText
 	jpfar GainExperience
+
+TeamGainedExpText:
+	text_far _TeamGainedExpText
+	text_end
 
 EnemyMonFaintedText:
 	text_far _EnemyMonFaintedText

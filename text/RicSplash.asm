@@ -1,3 +1,7 @@
+_TeamGainedExpText::
+	text "Team gained EXP!"
+	prompt
+
 _RicSplashText::
 	text "This is RIC'S"
 	line "VERSION of"

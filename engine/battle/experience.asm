@@ -156,8 +156,15 @@ GainExperience:
 	ld a, [wWhichPokemon]
 	ld hl, wPartyMonNicks
 	call GetPartyMonName
+	; During the EXP.ALL pass, one "Team gained EXP!" box has already been
+	; shown, so skip the per-mon message; participants (first pass) keep
+	; their normal "gained ... EXP. Points!" message.
+	ld a, [wBoostExpByExpAll]
+	and a
+	jr nz, .skipGainedText
 	ld hl, GainedText
 	call PrintText
+.skipGainedText
 	xor a ; PLAYER_PARTY_DATA
 	ld [wMonDataLocation], a
 	call LoadMonData
